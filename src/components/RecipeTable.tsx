@@ -1,8 +1,11 @@
 import { Delete, FilterList } from '@mui/icons-material';
-import { alpha, Box, Checkbox, IconButton, Paper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar, Tooltip, Typography } from '@mui/material';
+import { alpha, Box, Checkbox, IconButton, Link, Paper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar, Tooltip, Typography } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
 import { visuallyHidden } from '@mui/utils';
 import React from 'react';
 import { RecipeType } from 'types/recipe';
+import StarIcon from '@mui/icons-material/Star';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
 
 interface RecipeProps {
   recipes: Array<RecipeType>
@@ -94,7 +97,7 @@ interface EnhancedTableProps {
   rowCount: number;
 }
 
-const EnhancedTableHead: React.FC<EnhancedTableProps> = ( props ) => {
+const EnhancedTableHead: React.FC<EnhancedTableProps> = (props) => {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
     props;
   const createSortHandler =
@@ -116,7 +119,7 @@ const EnhancedTableHead: React.FC<EnhancedTableProps> = ( props ) => {
             }}
           />
         </TableCell>
-        {headCells.map(({id, numeric, disablePadding, label}) => (
+        {headCells.map(({ id, numeric, disablePadding, label }) => (
           id ? <TableCell
             key={id}
             align={numeric ? 'right' : 'left'}
@@ -137,7 +140,7 @@ const EnhancedTableHead: React.FC<EnhancedTableProps> = ( props ) => {
             </TableSortLabel>
           </TableCell> : <TableCell
             key={id}
-            align={numeric ? 'right' : 'left'}
+            align={'center'}
             padding={disablePadding ? 'none' : 'normal'}
           >
             {label}
@@ -205,7 +208,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 const RecipeTable: React.FC<RecipeProps> = ({ recipes }) => {
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof RecipeType>('name');
-  const [selected, setSelected] = React.useState<String[]>([]);
+  const [selected, setSelected] = React.useState<Number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -220,19 +223,19 @@ const RecipeTable: React.FC<RecipeProps> = ({ recipes }) => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = recipes.map((n) => n.name);
+      const newSelecteds = recipes.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: String) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: String[] = [];
+  const handleClick = (event: React.MouseEvent<unknown>, id: Number) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected: Number[] = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -256,7 +259,7 @@ const RecipeTable: React.FC<RecipeProps> = ({ recipes }) => {
     setPage(0);
   };
 
-  const isSelected = (name: String) => selected.indexOf(name) !== -1;
+  const isSelected = (id: Number) => selected.indexOf(id) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty recipes.
   const emptyRows =
@@ -283,14 +286,14 @@ const RecipeTable: React.FC<RecipeProps> = ({ recipes }) => {
             <TableBody>
               {recipes.slice().sort(getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                .map(({ id, name, createdAt, creatorName, cookingTime }, index) => {
+                  const isItemSelected = isSelected(id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event: React.MouseEvent<unknown, MouseEvent>) => handleClick(event, row.name)}
+                      onClick={(event: React.MouseEvent<unknown, MouseEvent>) => handleClick(event, id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -312,12 +315,31 @@ const RecipeTable: React.FC<RecipeProps> = ({ recipes }) => {
                         scope="row"
                         padding="none"
                       >
-                        {row.name}
+                        {name}
                       </TableCell>
-                      <TableCell align="right">{`${row.createdAt}`}</TableCell>
-                      <TableCell align="right">{row.creatorName}</TableCell>
-                      <TableCell align="right">{`${row.cookingTime}`}</TableCell>
-                      <TableCell align="right">Like</TableCell>
+                      <TableCell align="right">{`${createdAt}`}</TableCell>
+                      <TableCell align="right">{creatorName}</TableCell>
+                      <TableCell align="right">{`${cookingTime}`}</TableCell>
+                      <TableCell align="right">
+                        <Link href={`/details?id=${id}`}>
+                          <IconButton
+                            color="primary"
+                          >
+                            <InfoIcon />
+                          </IconButton>
+                        </Link>
+                        <IconButton
+                          color="primary"
+                          aria-label="like"
+                          component="span"
+                          onClick={() => {
+                            alert('clicked');
+                          }}
+                        >
+                          <StarOutlineIcon />
+                        </IconButton>
+                        {/* <StarIcon /> */}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
