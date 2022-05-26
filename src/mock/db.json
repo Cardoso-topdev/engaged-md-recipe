@@ -3,9 +3,9 @@
     {
       "id": 1,
       "name": "Beef Enchiladas",
-      "created-at": "2022-05-15T13:45:30",
-      "creator-name": "Bailey King",
-      "cooking-time": "0.5",
+      "createdAt": "2022-05-15T13:45:30",
+      "creatorName": "Bailey King",
+      "cookingTime": 0.5,
       "ingredients": [
         "Black Pepper",
         "Cumin",
@@ -22,9 +22,9 @@
     {
       "id": 2,
       "name": "Frito Pie",
-      "created-at": "2022-05-21T15:24:31",
-      "creator-name": "Kelsey Powers",
-      "cooking-time": "1",
+      "createdAt": "2022-05-21T15:24:31",
+      "creatorName": "Kelsey Powers",
+      "cookingTime": 1,
       "ingredients": [
         "Paprika",
         "Cayenne",
@@ -41,9 +41,9 @@
     {
       "id": 3,
       "name": "Favorite Meatloaf",
-      "created-at": "2022-05-12T21:45:30",
-      "creator-name": "Brady Mayo",
-      "cooking-time": "0.3",
+      "createdAt": "2022-05-12T21:45:30",
+      "creatorName": "Brady Mayo",
+      "cookingTime": 0.3,
       "ingredients": [
         "Fennel",
         "Turmeric",
@@ -61,9 +61,9 @@
     {
       "id": 4,
       "name": "General Tso’s Chicken",
-      "created-at": "2022-05-11T22:15:30",
-      "creator-name": "Sawyer Jarvis",
-      "cooking-time": "0.2",
+      "createdAt": "2022-05-11T22:15:30",
+      "creatorName": "Sawyer Jarvis",
+      "cookingTime": 0.2,
       "ingredients": [
         "Nutmeg",
         "Thyme",
@@ -80,9 +80,9 @@
     {
       "id": 5,
       "name": "Slow Cooker BBQ Ribs",
-      "created-at": "2022-05-22T05:25:10",
-      "creator-name": "Toby Macdonald",
-      "cooking-time": "0.4",
+      "createdAt": "2022-05-22T05:25:10",
+      "creatorName": "Toby Macdonald",
+      "cookingTime": 0.4,
       "ingredients": [
         "Black Pepper",
         "Cumin",
@@ -99,9 +99,9 @@
     {
       "id": 6,
       "name": "Turkey Tetrazzini",
-      "created-at": "2009-06-15T13:45:30",
-      "creator-name": "Ramiro Wilkinson",
-      "cooking-time": "1.2",
+      "createdAt": "2009-06-15T13:45:30",
+      "creatorName": "Ramiro Wilkinson",
+      "cookingTime": 1.2,
       "ingredients": [
         "Black Pepper",
         "Cumin",
@@ -118,9 +118,9 @@
     {
       "id": 7,
       "name": "Frito Pie",
-      "created-at": "2022-02-22T22:22:22",
-      "creator-name": "Alena Aguilar",
-      "cooking-time": "1.5",
+      "createdAt": "2022-02-22T22:22:22",
+      "creatorName": "Alena Aguilar",
+      "cookingTime": 1.5,
       "ingredients": [
         "Nutmeg",
         "Thyme",
