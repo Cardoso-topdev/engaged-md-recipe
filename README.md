@@ -9,3 +9,19 @@
 > - Write and load the state value to the localstorage for keeping the application state even the application refreshed.
 > - Display recipe data from the mock server on in to the MUI table. Created a RecipeTable component made it as a re-usable component. Using it on both Home and Favorite page.
 > - Created RecipeDetail page and displaying detail data on Card view.
+
+
+## Launch Script
+#### Start up mockup server
+This script will launch mock server with 3000 port
+> npm run mock <br />
+
+#### Start up the project
+This script will launch the project with 3001 port
+> npm run start <br />
+
+#### Other scripts
+> npm run preinstall <br />
+> npm run build <br />
+> npm run test <br />
+> npm run eject <br />
