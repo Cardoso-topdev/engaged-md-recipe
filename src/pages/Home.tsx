@@ -1,31 +1,33 @@
 import RecipeTable from 'components/RecipeTable';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { RecipeApis } from 'service/api-service';
+import { setRecipes } from 'redux/redux-slice';
+import { RecipeRawType, StoreValue } from 'types/recipe';
 import MainLayout from '../layouts/MainLayout';
 
 const Home: React.FC = () => {
   
-  const [recipes, setRecipes] = useState([])
+  const recipes = useSelector((state: StoreValue) => state.recipeReducer.recipes)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const getRecipes = async (): Promise<void> => {
       try {
-        const recipes = await RecipeApis.getRecipes()
-        setRecipes(recipes)
+        const recipesRes: Array<RecipeRawType> = await RecipeApis.getRecipes()
+        dispatch(setRecipes(recipesRes))
       } catch (e: any) {
         console.log('Get Recipes Error : ', e.response?.data?.message)
       }
     }
-    getRecipes()
+    if (recipes.length == 0) {
+      getRecipes()
+    }
   }, [])
-
-  useEffect(() => {
-    console.log(recipes)
-  }, [recipes])
 
   return (
     <MainLayout>
-      <RecipeTable recipes={recipes} /> 
+      <RecipeTable /> 
     </MainLayout>
   );
 };

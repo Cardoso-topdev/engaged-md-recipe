@@ -1,15 +1,13 @@
 import { Delete, FilterList } from '@mui/icons-material';
-import { alpha, Box, Checkbox, IconButton, Link, Paper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar, Tooltip, Typography } from '@mui/material';
+import { alpha, Box, Checkbox, IconButton, Link, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar, Tooltip, Typography } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import { visuallyHidden } from '@mui/utils';
 import React from 'react';
-import { RecipeType } from 'types/recipe';
+import { RecipeType, StoreValue } from 'types/recipe';
 import StarIcon from '@mui/icons-material/Star';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
-
-interface RecipeProps {
-  recipes: Array<RecipeType>
-}
+import { useDispatch, useSelector } from 'react-redux';
+import { like } from 'redux/redux-slice';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -33,20 +31,6 @@ function getComparator<Key extends keyof any>(
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
-function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
 }
 
 interface HeadCell {
@@ -119,9 +103,9 @@ const EnhancedTableHead: React.FC<EnhancedTableProps> = (props) => {
             }}
           />
         </TableCell>
-        {headCells.map(({ id, numeric, disablePadding, label }) => (
+        {headCells.map(({ id, numeric, disablePadding, label }, index) => (
           id ? <TableCell
-            key={id}
+            key={index}
             align={numeric ? 'right' : 'left'}
             padding={disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === id ? order : false}
@@ -139,7 +123,7 @@ const EnhancedTableHead: React.FC<EnhancedTableProps> = (props) => {
               ) : null}
             </TableSortLabel>
           </TableCell> : <TableCell
-            key={id}
+            key={index}
             align={'center'}
             padding={disablePadding ? 'none' : 'normal'}
           >
@@ -205,12 +189,15 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   );
 };
 
-const RecipeTable: React.FC<RecipeProps> = ({ recipes }) => {
+const RecipeTable: React.FC = () => {
+  const recipes = useSelector((state: StoreValue) => state.recipeReducer.recipes)
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof RecipeType>('name');
   const [selected, setSelected] = React.useState<Number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const dispatch = useDispatch()
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -286,7 +273,8 @@ const RecipeTable: React.FC<RecipeProps> = ({ recipes }) => {
             <TableBody>
               {recipes.slice().sort(getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(({ id, name, createdAt, creatorName, cookingTime }, index) => {
+                .map((recipeItem: RecipeType, index) => {
+                  const { id, name, createdAt, creatorName, cookingTime, favorite } = recipeItem
                   const isItemSelected = isSelected(id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -320,7 +308,7 @@ const RecipeTable: React.FC<RecipeProps> = ({ recipes }) => {
                       <TableCell align="right">{`${createdAt}`}</TableCell>
                       <TableCell align="right">{creatorName}</TableCell>
                       <TableCell align="right">{`${cookingTime}`}</TableCell>
-                      <TableCell align="right">
+                      <TableCell align="center">
                         <Link href={`/details?id=${id}`}>
                           <IconButton
                             color="primary"
@@ -332,13 +320,13 @@ const RecipeTable: React.FC<RecipeProps> = ({ recipes }) => {
                           color="primary"
                           aria-label="like"
                           component="span"
-                          onClick={() => {
-                            alert('clicked');
+                          onClick={(event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+                            event.stopPropagation();
+                            dispatch(like(recipeItem))
                           }}
                         >
-                          <StarOutlineIcon />
+                          {favorite ? (<StarIcon />) : (<StarOutlineIcon />)}
                         </IconButton>
-                        {/* <StarIcon /> */}
                       </TableCell>
                     </TableRow>
                   );

@@ -1,7 +1,12 @@
 import { AppBar, Box, Link, Toolbar, Typography } from '@mui/material';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { StoreType, StoreValue } from 'types/recipe';
 
 const Header: React.FC = () => {
+  const recipes = useSelector((state: StoreValue) => state.recipeReducer.recipes)
+  const favoritesCnt = recipes.filter(item => item.favorite).length
+  console.log(recipes, favoritesCnt)
   return (
     <Box sx={{ flexGrow: 1}}>
       <AppBar>
@@ -11,7 +16,7 @@ const Header: React.FC = () => {
           </Link>
           <Box component={'div'} >
             <Link href="/likes">
-              <Typography sx={{ color: 'white' }}>Favorites</Typography>
+              <Typography sx={{ color: 'white' }}>{`Favorites(${favoritesCnt})`}</Typography>
             </Link>
           </Box>
         </Toolbar>

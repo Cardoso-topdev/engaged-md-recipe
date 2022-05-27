@@ -1,4 +1,4 @@
-export interface RecipeType {
+export interface RecipeRawType {
   id: Number,
   name: String,
   createdAt: Date,
@@ -6,4 +6,15 @@ export interface RecipeType {
   cookingTime: Number,
   ingredients: Array<String>,
   instructions: Array<String>
+}
+
+export interface RecipeType extends RecipeRawType {
+  favorite: Boolean
+}
+
+export interface StoreType {
+  recipes: Array<RecipeType>
+}
+export interface StoreValue {
+  recipeReducer: StoreType
 }
