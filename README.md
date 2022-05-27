@@ -1,9 +1,11 @@
-Created a React project and setup TypeScript engine.
-Installed Mui node module and set the theme configuration.
-Structured the whole project with layouts, pages, components, types and so on.
-Created a mock server by using json-server node module and prepared a mock recipe data list on mock/db.json file.
-Made a APIs and callAPI services for CRUD operations.
-Setup redux flow to the project for managing application states.
-Write and load the state value to the localstorage for keeping the application state even the application refreshed.
-Display recipe data from the mock server on in to the MUI table. Created a RecipeTable component made it as a re-usable component. Using it on both Home and Favorite page.
-Created RecipeDetail page and displaying detail data on Card view.
+# EngagedMD Recipe Description
+
+> - Created a React project and setup TypeScript engine.
+> - Installed Mui node module and set the theme configuration.
+> - Structured the whole project with layouts, pages, components, types and so on.
+> - Created a mock server by using json-server node module and prepared a mock recipe data list on mock/db.json file.
+> - Made a APIs and callAPI services for CRUD operations.
+> - Setup redux flow to the project for managing application states.
+> - Write and load the state value to the localstorage for keeping the application state even the application refreshed.
+> - Display recipe data from the mock server on in to the MUI table. Created a RecipeTable component made it as a re-usable component. Using it on both Home and Favorite page.
+> - Created RecipeDetail page and displaying detail data on Card view.
