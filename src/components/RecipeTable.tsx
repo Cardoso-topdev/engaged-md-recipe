@@ -189,14 +189,17 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   );
 };
 
-const RecipeTable: React.FC = () => {
-  const recipes = useSelector((state: StoreValue) => state.recipeReducer.recipes)
+type RecipeTableProp = {
+  isFavorite: Boolean
+}
+
+const RecipeTable: React.FC<RecipeTableProp> = ({isFavorite}) => {
+  let recipes = useSelector((state: StoreValue) => state.recipeReducer.recipes)
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof RecipeType>('name');
   const [selected, setSelected] = React.useState<Number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
   const dispatch = useDispatch()
 
   const handleRequestSort = (
@@ -216,6 +219,10 @@ const RecipeTable: React.FC = () => {
     }
     setSelected([]);
   };
+
+  if (isFavorite) {
+    recipes = recipes.filter(item => item.favorite)
+  }
 
   const handleClick = (event: React.MouseEvent<unknown>, id: Number) => {
     const selectedIndex = selected.indexOf(id);

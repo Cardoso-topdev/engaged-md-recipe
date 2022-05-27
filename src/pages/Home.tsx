@@ -20,14 +20,14 @@ const Home: React.FC = () => {
         console.log('Get Recipes Error : ', e.response?.data?.message)
       }
     }
-    if (recipes.length == 0) {
+    if (recipes.length === 0) {
       getRecipes()
     }
   }, [])
 
   return (
     <MainLayout>
-      <RecipeTable /> 
+      <RecipeTable isFavorite={false}/> 
     </MainLayout>
   );
 };
