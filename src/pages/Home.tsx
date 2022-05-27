@@ -6,6 +6,10 @@ import { setRecipes } from 'redux/redux-slice';
 import { RecipeRawType, StoreValue } from 'types/recipe';
 import MainLayout from '../layouts/MainLayout';
 
+/**
+ * Display cooking recipes data in the materiable table
+ * Pulling data from the mock server and dispatch data into the store
+ */
 const Home: React.FC = () => {
   
   const recipes = useSelector((state: StoreValue) => state.recipeReducer.recipes)

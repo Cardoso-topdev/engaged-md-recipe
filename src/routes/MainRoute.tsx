@@ -4,6 +4,9 @@ import Favorites from '../pages/Favorites';
 import Home from '../pages/Home';
 import Detail from 'pages/Detail';
 
+/**
+ * Main Route for the application
+ */
 const MainRoute: React.FC = () => {
   return (
     <Routes>
